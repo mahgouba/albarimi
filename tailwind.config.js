@@ -105,34 +105,4 @@ export default {
   darkMode: "class"
   
 }
- function shareCardInfo(btn) {
-    // Find the parent .dropdown-content
-    const dropdown = btn.closest('.dropdown-content');
-    if (!dropdown) return;
-    // Gather card information
-    const title = dropdown.querySelector('h3')?.innerText || '';
-    const spans = dropdown.querySelectorAll('span.font-bold');
-    const ps = dropdown.querySelectorAll('p.text-sm');
-    let info = '';
-    for (let i = 0; i < Math.min(spans.length, ps.length); i++) {
-        info += `${spans[i].innerText}: ${ps[i].innerText}\n`;
-    }
-    if (title) info += `\n${title}`;
-    // Use Web Share API if available
-    if (navigator.share) {
-        navigator.share({
-            title: title,
-            text: info,
-        }).catch(() => {});
-    } else {
-        // Fallback: Copy to clipboard
-        copyToClipboard(info);
-        showToast('تم نسخ معلومات البطاقة للمشاركة');
-    }
-            lucide.createIcons({
-    icons: {
-        'check-circle': document.querySelector('[data-lucide="check-circle"]'),
-        'share-2': document.querySelector('[data-lucide="share-2"]')
-    }
-});
-}
+
