@@ -60,6 +60,11 @@
                         <h3 class="text-lg font-bold text-center mt-3" style="color: #00627F;">مصرف الراجحي</h3>
                     </div>
                 </div>
+                <!-- Share Button -->
+<button onclick="shareCardInfo(this)" class="copy-btn p-1.5 hover:bg-gray-100 rounded-lg transition-all duration-300 flex items-center gap-1 mt-2 w-full justify-center">
+    <i data-lucide="share-2" class="w-4 h-4" style="color: #00627F;"></i>
+    <span class="text-xs" style="color: #00627F;">مشاركة</span>
+</button>
             </div>
 
             <!-- 2. NCB Bank - #004433 -->
@@ -482,6 +487,31 @@
         }
     </style>
     <script>
+        function shareCardInfo(btn) {
+    // Find the parent .dropdown-content
+    const dropdown = btn.closest('.dropdown-content');
+    if (!dropdown) return;
+    // Gather card information
+    const title = dropdown.querySelector('h3')?.innerText || '';
+    const spans = dropdown.querySelectorAll('span.font-bold');
+    const ps = dropdown.querySelectorAll('p.text-sm');
+    let info = '';
+    for (let i = 0; i < Math.min(spans.length, ps.length); i++) {
+        info += `${spans[i].innerText}: ${ps[i].innerText}\n`;
+    }
+    if (title) info += `\n${title}`;
+    // Use Web Share API if available
+    if (navigator.share) {
+        navigator.share({
+            title: title,
+            text: info,
+        }).catch(() => {});
+    } else {
+        // Fallback: Copy to clipboard
+        copyToClipboard(info);
+        showToast('تم نسخ معلومات البطاقة للمشاركة');
+    }
+}
         lucide.createIcons();
         
         function showToast(message) {
