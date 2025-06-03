@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <!-- Share Button -->
-<button onclick="shareCardInfo(this)" class="copy-btn p-1.5 hover:bg-gray-100 rounded-lg transition-all duration-300 flex items-center gap-1 mt-2 w-full justify-center">
+<button onclick="shareBankInfoRajhi()" class="copy-btn p-1.5 hover:bg-gray-100 rounded-lg transition-all duration-300 flex items-center gap-1 mt-2 w-full justify-center">
     <i data-lucide="share-2" class="w-4 h-4" style="color: #00627F;"></i>
     <span class="text-xs" style="color: #00627F;">مشاركة</span>
 </button>
@@ -487,30 +487,22 @@
         }
     </style>
     <script>
-        function shareCardInfo(btn) {
-    // Find the parent .dropdown-content
-    const dropdown = btn.closest('.dropdown-content');
-    if (!dropdown) return;
-    // Gather card information
-    const title = dropdown.querySelector('h3')?.innerText || '';
-    const spans = dropdown.querySelectorAll('span.font-bold');
-    const ps = dropdown.querySelectorAll('p.text-sm');
-    let info = '';
-    for (let i = 0; i < Math.min(spans.length, ps.length); i++) {
-        info += `${spans[i].innerText}: ${ps[i].innerText}\n`;
-    }
-    if (title) info += `\n${title}`;
-    // Use Web Share API if available
-    if (navigator.share) {
-        navigator.share({
-            title: title,
-            text: info,
-        }).catch(() => {});
-    } else {
-        // Fallback: Copy to clipboard
-        copyToClipboard(info);
-        showToast('تم نسخ معلومات البطاقة للمشاركة');
-    }
+       function shareBankInfoRajhi() {
+        const accountName = 'شركة البريمي للسيارات';
+        const accountNumber = '25268400000102';
+        const iban = 'SA5110000025268400000102';
+        const bank = 'البنك الأهلي السعودي';
+
+        const shareData = {
+            title: 'معلومات حساب بنكي',
+            text: `اسم الحساب: ${accountName}\nرقم الحساب: ${accountNumber}\nالآيبان: ${iban}\nالبنك: ${bank}`
+        };
+
+        if (navigator.share) {
+            navigator.share(shareData).catch(console.error);
+        } else {
+            alert("المشاركة غير مدعومة في هذا المتصفح.");
+        }
             lucide.createIcons({
     icons: {
         'check-circle': document.querySelector('[data-lucide="check-circle"]'),
